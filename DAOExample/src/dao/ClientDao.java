@@ -32,58 +32,65 @@ public class ClientDao {
         }
     }
 
-//    public void deleteClient(int userId) {
-//        try {
-//            PreparedStatement preparedStatement = connection
-//                    .prepareStatement("delete from users where userid=?");
-//            // Parameters start with 1
-//            preparedStatement.setInt(1, userId);
-//            preparedStatement.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void deleteClient(int clientId) {
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("delete from test where id=?");
+            // Parameters start with 1
+            preparedStatement.setInt(1, clientId);
+            preparedStatement.executeUpdate();
 
-//    public void updateClient(Client client) {
-//        try {
-//            PreparedStatement preparedStatement = connection
-//                    .prepareStatement("update users set firstname=?, lastname=?, dob=?, email=?" +
-//                            "where userid=?");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateClient(Client client) {
+        try {
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("update test set name=?, adress=?, credit=?" +
+                            "where id=?");
 //             Parameters start with 1
-//            preparedStatement.setString(1, user.getFirstName());
-//            preparedStatement.setString(2, user.getLastName());
-//            preparedStatement.setDate(3, new java.sql.Date(user.getDob().getTime()));
-//            preparedStatement.setString(4, user.getEmail());
-//            preparedStatement.setInt(5, user.getUserid());
-//            preparedStatement.executeUpdate();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
+            preparedStatement.setString(1, client.getName());
+            preparedStatement.setString(2, client.getAdress());
+            preparedStatement.setFloat(3, client.getCredit());
+            preparedStatement.setInt(4, client.getId());
+            preparedStatement.executeUpdate();
 
-//    public List<User> getAllUsers() {
-//        List<User> users = new ArrayList<User>();
-//        try {
-//            Statement statement = connection.createStatement();
-//            ResultSet rs = statement.executeQuery("select * from users");
-//            while (rs.next()) {
-//                User user = new User();
-//                user.setUserid(rs.getInt("userid"));
-//                user.setFirstName(rs.getString("firstname"));
-//                user.setLastName(rs.getString("lastname"));
-//                user.setDob(rs.getDate("dob"));
-//                user.setEmail(rs.getString("email"));
-//                users.add(user);
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return users;
-//    }
-//
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Client> getAllUsers() {
+        List<Client> clients = new ArrayList<Client>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from test");
+            while (rs.next()) {
+                Client client = new Client();
+                client.setId(rs.getInt("id"));
+                client.setName(rs.getString("name"));
+                client.setAdress(rs.getString("adress"));
+                client.setCredit(rs.getFloat("credit"));
+                client.setExpiration(rs.getDate("date"));
+                clients.add(client);
+                System.out.println(client.getName());
+                System.out.println(client.getAdress());
+                System.out.println(client.getCredit());
+                
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        
+		System.out.println(clients);
+	
+        return clients;
+        
+    }
+
 //    public User getUserById(int userId) {
 //        User user = new User();
 //        try {

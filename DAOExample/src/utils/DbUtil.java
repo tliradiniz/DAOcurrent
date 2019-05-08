@@ -17,10 +17,10 @@ public class DbUtil {
             return connection;
         else {
             try {
-                String driver = "com.mysql.jdbc.Driver";
-                String url = "jdbc:mysql://localhost:3306/userdb";
+                String driver = "org.h2.Driver";
+                String url = "jdbc:h2:~/test";
                 String user = "admin";
-                String password = "root";
+                String password = "";
                 Class.forName(driver);
                 connection = DriverManager.getConnection(url, user, password);
             } catch (ClassNotFoundException e) {

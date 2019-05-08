@@ -27,7 +27,7 @@ public class ClientDao {
         	
         	
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into test(name, adress, credit, date) values (?,?,?,?)");
+                    .prepareStatement("insert into test(name, address, credit, expiration) values (?,?,?,?)");
             // Parameters start with 1
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getAdress());
@@ -56,7 +56,7 @@ public class ClientDao {
     public void updateClient(Client client) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update test set name=?, adress=?, credit=?, date=?" +
+                    .prepareStatement("update test set name=?, address=?, credit=?, expiration=?" +
                             "where id=?");
 //             Parameters start with 1
             preparedStatement.setString(1, client.getName());
@@ -82,13 +82,13 @@ public class ClientDao {
                 Client client = new Client();
                 client.setId(rs.getInt("id"));
                 client.setName(rs.getString("name"));
-                client.setAdress(rs.getString("adress"));
+                client.setAdress(rs.getString("address"));
                 client.setCredit(rs.getFloat("credit"));
-                client.setDateaux(rs.getDate("date"));
+                client.setDateaux(rs.getDate("expiration"));
                 
           
                 System.out.println("----------------------------------------------------------------");
-                System.out.println(rs.getDate("date"));
+                System.out.println(rs.getDate("expiration"));
                 System.out.println("----------------------------------------------------------------");
                 clients.add(client);
                 System.out.println(client.getName());

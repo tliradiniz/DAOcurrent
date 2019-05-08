@@ -1,9 +1,12 @@
 package dao;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Client;
@@ -17,14 +20,19 @@ public class ClientDao {
         connection = DbUtil.getConnection();
     }
 
+
+    
     public void addClient(Client client) {
         try {
+        	
+        	
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("insert into test(name, adress, credit) values (?,?,?)");
+                    .prepareStatement("insert into test(name, adress, credit, date) values (?,?,?,?)");
             // Parameters start with 1
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getAdress());
             preparedStatement.setFloat(3, client.getCredit());
+            preparedStatement.setDate(4, Date.valueOf(client.getExpiration()));
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -48,37 +56,45 @@ public class ClientDao {
     public void updateClient(Client client) {
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("update test set name=?, adress=?, credit=?" +
+                    .prepareStatement("update test set name=?, adress=?, credit=?, date=?" +
                             "where id=?");
 //             Parameters start with 1
             preparedStatement.setString(1, client.getName());
             preparedStatement.setString(2, client.getAdress());
             preparedStatement.setFloat(3, client.getCredit());
-            preparedStatement.setInt(4, client.getId());
+            preparedStatement.setDate(4, Date.valueOf(client.getExpiration()));
+            preparedStatement.setInt(5, client.getId());
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+  
 
     public List<Client> getAllUsers() {
         List<Client> clients = new ArrayList<Client>();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from test");
+            ResultSet rs = statement.executeQuery("select * from test order by credit asc");
             while (rs.next()) {
                 Client client = new Client();
                 client.setId(rs.getInt("id"));
                 client.setName(rs.getString("name"));
                 client.setAdress(rs.getString("adress"));
                 client.setCredit(rs.getFloat("credit"));
-                client.setExpiration(rs.getDate("date"));
+                client.setDateaux(rs.getDate("date"));
+                
+          
+                System.out.println("----------------------------------------------------------------");
+                System.out.println(rs.getDate("date"));
+                System.out.println("----------------------------------------------------------------");
                 clients.add(client);
                 System.out.println(client.getName());
                 System.out.println(client.getAdress());
                 System.out.println(client.getCredit());
-                
+                System.out.println(client.getDateaux());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -86,8 +102,8 @@ public class ClientDao {
 
         
 		System.out.println(clients);
-	
-        return clients;
+		
+		return clients;
         
     }
 
@@ -112,7 +128,7 @@ public class ClientDao {
 //
 //        return user;
 //    }
-    
+//    
     
  
 }

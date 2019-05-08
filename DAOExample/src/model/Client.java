@@ -1,6 +1,7 @@
 package model;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class Client {
 	
@@ -8,7 +9,15 @@ public class Client {
 	private String name;
 	private String adress;
 	private float credit;
-	private Date expiration;
+	private LocalDate dateEntry;
+	private Date dateRead;
+	
+	public void setDateaux(Date dateaux) {
+        this.dateRead = dateaux;
+    }
+	public Date getDateaux() {
+        return dateRead;
+    }
 	
 	public int getId() {
 		return id;
@@ -34,13 +43,23 @@ public class Client {
 	public void setCredit(float credit) {
 		this.credit = credit;
 	}
-	public Date getExpiration() {
-		return expiration;
+	public LocalDate getExpiration() {
+		return dateEntry;
 	}
-	public void setExpiration(Date expiration) {
-		this.expiration = expiration;
+	public void setExpiration(LocalDate expiration) {
+		this.dateEntry = expiration;
 	}
 	
-	
+	  public LocalDate toDate(int ano, int mes, int dia) {
+	    	LocalDate localDate = LocalDate.of(ano, mes, dia);
+	    	
+			return localDate;
+	    	
+	    }
+	  
+	  public LocalDate convertToEntityAttribute(Date date) {
+		    return date.toLocalDate();
+		  }
+		
 	
 }
